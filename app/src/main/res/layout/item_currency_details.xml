@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="rocks.wintren.rency.models.CurrencyDetailsItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="@{() -> item.onCurrencyClick.invoke()}"
+        android:padding="@dimen/medium_spacing">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/currencyFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/medium_spacing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/currencyCode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                glideUrlCircle="@{item.flagUrl}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/currencyCode"
+            style="@style/Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.currencyTitle}"
+            app:layout_constraintBottom_toTopOf="@id/currencyName"
+            app:layout_constraintEnd_toStartOf="@id/currencyRate"
+            app:layout_constraintStart_toEndOf="@id/currencyFlag"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="sek" />
+
+        <TextView
+            android:id="@+id/currencyName"
+            style="@style/Subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.currencySubtitle}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/currencyCode"
+            app:layout_constraintStart_toStartOf="@id/currencyCode"
+            app:layout_constraintTop_toBottomOf="@id/currencyCode"
+            tools:text="Swedish Krona" />
+
+        <EditText
+            android:id="@+id/currencyRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_spacing"
+            android:minWidth="80dp"
+            android:paddingStart="@dimen/small_spacing"
+            android:paddingEnd="@dimen/small_spacing"
+            android:text="@{item.rate}"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/currencyCode"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1183.06" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

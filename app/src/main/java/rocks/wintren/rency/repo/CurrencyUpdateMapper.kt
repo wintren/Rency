@@ -2,6 +2,7 @@ package rocks.wintren.rency.repo
 
 import android.icu.util.Currency
 import rocks.wintren.rency.models.CurrencyDetails
+import rocks.wintren.rency.models.CurrencyRatesResponseDTO
 import rocks.wintren.rency.util.CurrencyUtil
 import rocks.wintren.rency.util.FlagUtil
 import javax.inject.Inject

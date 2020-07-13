@@ -1,4 +1,4 @@
-package rocks.wintren.rency.repo
+package rocks.wintren.rency.models
 
 import com.google.gson.annotations.SerializedName
 

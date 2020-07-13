@@ -3,7 +3,7 @@ package rocks.wintren.rency.repo
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
-import rocks.wintren.rency.repo.CurrencyRatesResponseDTO
+import rocks.wintren.rency.models.CurrencyRatesResponseDTO
 
 interface RevolutCurrencyAPI {
 

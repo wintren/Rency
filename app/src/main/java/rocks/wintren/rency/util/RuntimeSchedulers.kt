@@ -4,7 +4,7 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class RuntimeSchedulers : rocks.wintren.rency.util.RxSchedulers {
+class RuntimeSchedulers : RxSchedulers {
 
     override fun main(): Scheduler = AndroidSchedulers.mainThread()
 

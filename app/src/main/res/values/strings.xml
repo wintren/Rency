@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Rency</string>
+    <string translatable="false" name="app_name">Rency</string>
+    <string name="error_internet_not_available">No Internet Available, verify your connection and try again</string>
+    <string name="error_server_error">We experienced a problem on our end, please try again later</string>
 </resources>

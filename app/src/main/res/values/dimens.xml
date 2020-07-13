@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tiny_spacing">4dp</dimen>
+    <dimen name="small_spacing">8dp</dimen>
+    <dimen name="medium_spacing">16dp</dimen>
+    <dimen name="large_spacing">32dp</dimen>
+    <dimen name="huge_spacing">32dp</dimen>
+
+    <dimen name="currency_list_bottom_padding">@dimen/huge_spacing</dimen>
+
+</resources>
