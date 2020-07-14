@@ -12,34 +12,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:foreground="?attr/selectableItemBackground"
+        android:layout_height="wrap_content"
         android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> item.onCurrencyClick.invoke()}"
         android:padding="@dimen/medium_spacing">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
             android:id="@+id/currencyFlag"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            glideUrlCircle="@{item.flagUrl}"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_marginEnd="@dimen/medium_spacing"
+            android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/currencyCode"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
-            <ImageView
-                glideUrlCircle="@{item.flagUrl}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/currencyCode"

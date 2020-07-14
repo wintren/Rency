@@ -1,4 +1,4 @@
-package rocks.wintren.rency.app
+package rocks.wintren.rency.app.ratecalc
 
 import androidx.recyclerview.widget.DiffUtil
 import rocks.wintren.rency.models.CurrencyDetailsItem

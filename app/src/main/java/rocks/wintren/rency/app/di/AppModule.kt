@@ -1,4 +1,4 @@
-package rocks.wintren.rency.app
+package rocks.wintren.rency.app.di
 
 import android.app.Application
 import android.content.res.Resources

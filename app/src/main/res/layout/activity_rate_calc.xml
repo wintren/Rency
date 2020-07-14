@@ -7,18 +7,18 @@
 
         <variable
             name="viewModel"
-            type="rocks.wintren.rency.app.MainViewModel" />
+            type="rocks.wintren.rency.app.ratecalc.RateCalcViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
-        refreshListener="@{viewModel::startCurrencyUpdates}"
+        refreshListener="@{viewModel::onSwipeRefresh}"
         isRefreshing="@{viewModel.showLoadingEvent}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".app.MainActivity">
+        tools:context=".app.ratecalc.RateCalcActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
