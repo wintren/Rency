@@ -1,5 +1,9 @@
 package rocks.wintren.rency.util
 
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+
 object CurrencyUtil {
 
     fun countryCodeFromCurrencyCode(currencyCode: String): String {
@@ -40,6 +44,32 @@ object CurrencyUtil {
         }
     }
 
-    class CurrencyCountryException(currency: String): Exception("No available country for currency $currency")
+    private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
+        this as DecimalFormat
+        minimumFractionDigits = 2
+        // Not showing currency sign, locale irrelevant
+        currency = Currency.getInstance("EUR")
+        decimalFormatSymbols = decimalFormatSymbols.apply { currencySymbol = "" }
+    }
+
+    fun formatDisplayString(amount: Double): String {
+        return currencyFormatter.format(amount)
+            .trim()
+            // EditText only allows '.' but currencies want ','
+            .replace(',', '.')
+    }
+
+    fun parseCurrencyAmount(displayAmount: String) : Double {
+        return try {
+            // EditText only allows '.' but currencies want ','
+            val parsableFormat = displayAmount.replace('.', ',')
+            NumberFormat.getInstance().parse(parsableFormat)!!.toDouble()
+        } catch (e: Exception) { // Any problems gets caught
+            1.0
+        }
+    }
+
+    class CurrencyCountryException(currency: String) :
+        Exception("No available country for currency $currency")
 
 }

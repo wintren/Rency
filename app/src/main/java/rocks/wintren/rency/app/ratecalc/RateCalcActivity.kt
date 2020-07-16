@@ -39,9 +39,6 @@ class RateCalcActivity : AppCompatActivity() {
         when (event) {
             is RateCalcEvent.ToastToUser -> Toast.makeText(this, event.message, Toast.LENGTH_SHORT)
                 .show()
-            RateCalcEvent.ScrollToTop -> {
-                // TODO if needed
-            }
         }
     }
 

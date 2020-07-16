@@ -16,7 +16,8 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> item.onCurrencyClick.invoke()}"
-        android:padding="@dimen/medium_spacing">
+        android:padding="@dimen/medium_spacing"
+        tools:ignore="KeyboardInaccessibleWidget">
 
         <ImageView
             android:id="@+id/currencyFlag"
@@ -30,7 +31,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
-
 
         <TextView
             android:id="@+id/currencyCode"
@@ -59,13 +59,18 @@
 
         <EditText
             android:id="@+id/currencyRate"
+            onFocus="@{() -> item.onCurrencyClick.invoke()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_spacing"
+            android:focusable="true"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:maxWidth="300dp"
             android:minWidth="80dp"
             android:paddingStart="@dimen/small_spacing"
             android:paddingEnd="@dimen/small_spacing"
-            android:text="@{item.rate}"
+            android:text="@={item.currencyCalculationDisplay}"
             android:textAlignment="textEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
