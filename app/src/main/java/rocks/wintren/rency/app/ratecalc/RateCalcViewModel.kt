@@ -1,6 +1,7 @@
 package rocks.wintren.rency.app.ratecalc
 
 import androidx.lifecycle.ViewModel
+import rocks.wintren.rency.util.databinding.adapter.SimpleBindingAdapter
 import rocks.wintren.rency.models.CurrencyDetailsItem
 import rocks.wintren.rency.util.SingleLiveEvent
 import rocks.wintren.rency.util.databinding.adapter.BindingAdapterItem
@@ -36,27 +37,16 @@ class RateCalcViewModel @Inject constructor(
             currency == detailsItem.currencyTitle
         }
 
-        list.forEach { (it.model as CurrencyDetailsItem).editingDisabled.value = true }
-        (topItem.model as CurrencyDetailsItem).let {
-            it.currencyRate = 1.0
-            it.editingDisabled.value = false
-            it.setSelected.value = true
-        }
-
         val indexOfTopItem = list.indexOf(topItem)
         list.removeAt(indexOfTopItem)
         adapter.submitList(listOf(topItem))
 
         list.add(0, topItem)
-        delay(500) { adapter.submitList(list) }
+        delay(PROMOTE_ANIMATION_DELAY_MS) { adapter.submitList(list) }
     }
 
-    fun updateCommonCurrencyAmount(amount: Double) {
-        if (adapter.currentList.size > 0) {
-            adapter.currentList
-                .takeLast(adapter.currentList.size - 1)
-                .forEach { (it.model as CurrencyDetailsItem).currencyAmount = amount }
-        }
+    companion object {
+        const val PROMOTE_ANIMATION_DELAY_MS = 500L
     }
 
 }

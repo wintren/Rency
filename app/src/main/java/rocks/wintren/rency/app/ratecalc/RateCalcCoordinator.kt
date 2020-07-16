@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 class RateCalcCoordinator @Inject constructor(
     private val interactor: RateCalcInteractor,
+    private val currencyItemMapper: CurrencyItemMapper,
     private val rxSchedulers: RxSchedulers,
     private val resources: Resources
 ) {
@@ -32,6 +33,7 @@ class RateCalcCoordinator @Inject constructor(
 
     fun init(viewModel: RateCalcViewModel) {
         this.viewModel = viewModel
+        currencyItemMapper.init(::onAmountEdited, ::onCurrencyClick)
     }
 
     fun startUpdates() {
@@ -40,14 +42,14 @@ class RateCalcCoordinator @Inject constructor(
             return Timber.i("Currency Update already running")
         }
         interactor.fetchCurrencyUpdates()
-            .map { items ->
-                items.apply {
-                    forEach {
-                        if (!currencyItemsMap.containsKey(it.currencyCode)) {
-                            currencyItemsMap[it.currencyCode] = createCurrencyItem(it)
-                        }
+            .map { list ->
+                list.forEach {
+                    if (!currencyItemsMap.containsKey(it.currencyCode)) {
+                        val currencyDetailItem = currencyItemMapper.mapCurrencyDetailItem(it)
+                        currencyItemsMap[it.currencyCode] = currencyDetailItem
                     }
                 }
+                return@map list
             }
             .observeOn(rxSchedulers.main())
             .doOnEach { viewModel.showLoadingEvent.value = false }
@@ -65,15 +67,14 @@ class RateCalcCoordinator @Inject constructor(
         update.forEachIndexed { index, currencyDetails ->
             val currencyDetailsItem = currencyItemsMap[currencyDetails.currencyCode]!!
             currencyDetailsItem.start()
-            if (index == 0) {
-                // Make sure first item is editable
-                currencyDetailsItem.editingDisabled.value = false
-            } else {
-                // Update rates for other items (First is always 1.0 and update disrupts UI)
+            if (index > 0) {
+                // Current top item is always 1.0 and update disrupts UI
+                // Update rates for other items
                 currencyDetailsItem.currencyRate = currencyDetails.rate
             }
         }
-        // Update list if needed, new items
+
+        // Add to ViewModel if needed / new items
         if (viewModel.listCount != update.size) {
             val listItems = update
                 .map { currencyItemsMap[it.currencyCode]!! }
@@ -82,34 +83,36 @@ class RateCalcCoordinator @Inject constructor(
         }
     }
 
-    private fun createCurrencyItem(details: CurrencyDetails): CurrencyDetailsItem {
-        return CurrencyDetailsItem(
-            flagUrl = details.flagUrl,
-            currencyTitle = details.currencyCode,
-            currencySubtitle = details.currencyDisplayName,
-            initialRate = details.rate,
-            onCurrencyClick = { onCurrencyClick(details) },
-            onAmountEdited = ::onAmountEdited
-        )
-    }
-
     private fun onCurrencyClick(details: CurrencyDetails) {
         val currencyCode = details.currencyCode
         if (currencyCode != interactor.baseCurrencyCode) {
-            Timber.w("Click $details")
             stopUpdates()
+
+            currencyItemsMap[currencyCode]!!.let {
+                val displayAmount = it.currencyCalculationDisplay.value!!
+                val nativeAmount = CurrencyUtil.parseCurrencyAmount(displayAmount)
+                it.currencyRate = 1.0
+                it.currencyAmount = nativeAmount
+                updateAmountForItems(currencyCode, nativeAmount)
+            }
             interactor.baseCurrencyCode = currencyCode
+
             viewModel.promoteCurrencyToTop(currencyCode)
-            delay(500) { startUpdates() }
+            // Match animation in ViewModel with delay
+            delay(RateCalcViewModel.PROMOTE_ANIMATION_DELAY_MS) { startUpdates() }
         }
     }
 
     private fun onAmountEdited(currency: String, userInput: String) {
-        if (currency == interactor.baseCurrencyCode) {
-            Timber.i("Edited by user $currency $userInput")
-            val number = CurrencyUtil.parseCurrencyAmount(userInput)
-            viewModel.updateCommonCurrencyAmount(number)
-        }
+        if (currency != interactor.baseCurrencyCode) return
+        val number = CurrencyUtil.parseCurrencyAmount(userInput)
+        updateAmountForItems(currency, number)
+    }
+
+    private fun updateAmountForItems(baseCurrency: String, amount: Double) {
+        currencyItemsMap.values
+            .filterNot { it.currencyTitle == baseCurrency }
+            .forEach { it.currencyAmount = amount }
     }
 
     private fun onCurrencyUpdateError(error: Throwable) {

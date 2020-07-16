@@ -17,13 +17,15 @@ class RateCalcInteractor @Inject constructor(
 
     @CheckResult
     fun fetchCurrencyUpdates(): Observable<List<CurrencyDetails>> {
-        return Observable.interval(0L, 1, TimeUnit.SECONDS)
+        return Observable.interval(NO_DELAY, UPDATE_INTERVAL, TimeUnit.SECONDS)
             .observeOn(rxSchedulers.io())
             .flatMap { repo.fetchLatestCurrencyRatings(baseCurrencyCode).toObservable() }
     }
 
-    companion object {
+    private companion object {
         const val DEFAULT_CURRENCY = "EUR"
+        const val UPDATE_INTERVAL = 1L
+        const val NO_DELAY = 0L
     }
 
 }

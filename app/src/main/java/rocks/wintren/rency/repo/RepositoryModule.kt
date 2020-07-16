@@ -39,9 +39,7 @@ class RepositoryModule {
     fun provideRevolutRetrofit(
         gson: Gson,
         okHttp: OkHttpClient
-    ): Retrofit {
-        return createRetrofit(gson, okHttp, "https://hiring.revolut.codes/")
-    }
+    ): Retrofit = createRetrofit(gson, okHttp, REVOLUT_HOST)
 
     @Provides
     @Singleton
@@ -64,10 +62,14 @@ class RepositoryModule {
     private fun createOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BASIC
+                level = HttpLoggingInterceptor.Level.BODY
             })
         }.build()
     }
     //endregion
+
+    private companion object {
+        const val REVOLUT_HOST = "https://hiring.revolut.codes/"
+    }
 
 }

@@ -1,9 +1,7 @@
-package com.popsa.android.util.databinding.adapter
+package rocks.wintren.rency.util.databinding.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import rocks.wintren.rency.util.databinding.adapter.BindingAdapterItem
-import rocks.wintren.rency.util.databinding.adapter.DataBindingAdapter
 
 @SuppressLint("DiffUtilEquals")
 class SimpleBindingAdapter(

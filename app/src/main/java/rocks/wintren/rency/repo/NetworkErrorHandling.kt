@@ -15,4 +15,4 @@ fun <T> Single<T>.convertErrors(): Single<T> {
 }
 
 class NoInternet : Exception("No Internet Available")
-class ServerError(error: Throwable) : Exception("Some error from server")
+class ServerError(error: Throwable) : Exception("Some error from server: ${error.localizedMessage}")
