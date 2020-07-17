@@ -7,7 +7,6 @@ import rocks.wintren.rency.BR
 import rocks.wintren.rency.R
 import rocks.wintren.rency.app.ratecalc.RateCalcEvent.ToastToUser
 import rocks.wintren.rency.models.CurrencyDetails
-import rocks.wintren.rency.models.CurrencyDetailsItem
 import rocks.wintren.rency.repo.NoInternet
 import rocks.wintren.rency.repo.ServerError
 import rocks.wintren.rency.util.CurrencyUtil

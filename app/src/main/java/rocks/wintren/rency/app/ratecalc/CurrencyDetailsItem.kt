@@ -1,4 +1,4 @@
-package rocks.wintren.rency.models
+package rocks.wintren.rency.app.ratecalc
 
 import androidx.lifecycle.MutableLiveData
 import rocks.wintren.rency.util.CurrencyUtil

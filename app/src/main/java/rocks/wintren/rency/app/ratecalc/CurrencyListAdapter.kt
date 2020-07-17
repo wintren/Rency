@@ -1,7 +1,6 @@
 package rocks.wintren.rency.app.ratecalc
 
 import androidx.recyclerview.widget.DiffUtil
-import rocks.wintren.rency.models.CurrencyDetailsItem
 import rocks.wintren.rency.util.databinding.adapter.BindingAdapterItem
 import rocks.wintren.rency.util.databinding.adapter.DataBindingAdapter
 

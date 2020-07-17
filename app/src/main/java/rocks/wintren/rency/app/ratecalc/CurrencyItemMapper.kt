@@ -1,7 +1,6 @@
 package rocks.wintren.rency.app.ratecalc
 
 import rocks.wintren.rency.models.CurrencyDetails
-import rocks.wintren.rency.models.CurrencyDetailsItem
 import javax.inject.Inject
 
 class CurrencyItemMapper @Inject constructor() {

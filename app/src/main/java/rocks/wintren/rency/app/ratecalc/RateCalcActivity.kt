@@ -37,8 +37,9 @@ class RateCalcActivity : AppCompatActivity() {
 
     private fun onEvent(event: RateCalcEvent) {
         when (event) {
-            is RateCalcEvent.ToastToUser -> Toast.makeText(this, event.message, Toast.LENGTH_SHORT)
-                .show()
+            is RateCalcEvent.ToastToUser -> {
+                Toast.makeText(this, event.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

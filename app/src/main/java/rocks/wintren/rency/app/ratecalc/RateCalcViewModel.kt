@@ -1,8 +1,6 @@
 package rocks.wintren.rency.app.ratecalc
 
 import androidx.lifecycle.ViewModel
-import rocks.wintren.rency.util.databinding.adapter.SimpleBindingAdapter
-import rocks.wintren.rency.models.CurrencyDetailsItem
 import rocks.wintren.rency.util.SingleLiveEvent
 import rocks.wintren.rency.util.databinding.adapter.BindingAdapterItem
 import rocks.wintren.rency.util.delay

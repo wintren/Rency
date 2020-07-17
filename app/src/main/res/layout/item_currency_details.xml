@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="rocks.wintren.rency.models.CurrencyDetailsItem" />
+            type="rocks.wintren.rency.app.ratecalc.CurrencyDetailsItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
