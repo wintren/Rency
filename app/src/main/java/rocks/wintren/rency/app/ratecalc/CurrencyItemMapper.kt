@@ -17,8 +17,8 @@ class CurrencyItemMapper @Inject constructor() {
         this.onCurrencyClick = onCurrencyClick
     }
 
-    fun mapCurrencyDetailItem(details: CurrencyDetails): CurrencyDetailsItem {
-        return CurrencyDetailsItem(
+    fun mapCurrencyDetailItem(details: CurrencyDetails): CurrencyItem {
+        return CurrencyItem(
             flagUrl = details.flagUrl,
             titleCurrencyCode = details.currencyCode,
             subtitleCurrencyName = details.currencyDisplayName,

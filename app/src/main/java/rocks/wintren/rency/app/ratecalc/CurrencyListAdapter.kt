@@ -12,8 +12,8 @@ class CurrencyListAdapter : DataBindingAdapter(CurrencyDiff()) {
             oldItem: BindingAdapterItem,
             newItem: BindingAdapterItem
         ): Boolean {
-            oldItem.model as CurrencyDetailsItem
-            newItem.model as CurrencyDetailsItem
+            oldItem.model as CurrencyItem
+            newItem.model as CurrencyItem
             return oldItem.model.titleCurrencyCode == newItem.model.titleCurrencyCode
         }
 

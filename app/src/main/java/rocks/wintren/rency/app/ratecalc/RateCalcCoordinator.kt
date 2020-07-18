@@ -9,11 +9,8 @@ import rocks.wintren.rency.app.ratecalc.RateCalcEvent.ToastToUser
 import rocks.wintren.rency.models.CurrencyDetails
 import rocks.wintren.rency.repo.NoInternet
 import rocks.wintren.rency.repo.ServerError
-import rocks.wintren.rency.util.CurrencyUtil
-import rocks.wintren.rency.util.RxSchedulers
-import rocks.wintren.rency.util.SingleLiveEvent
+import rocks.wintren.rency.util.*
 import rocks.wintren.rency.util.databinding.adapter.mapToBindingAdapterItem
-import rocks.wintren.rency.util.delay
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,7 +25,7 @@ class RateCalcCoordinator @Inject constructor(
     private lateinit var viewModel: RateCalcViewModel
     private var disposables = CompositeDisposable()
     private var currencyUpdate: Disposable? = null
-    private val currencyItemsMap: MutableMap<String, CurrencyDetailsItem> = mutableMapOf()
+    private val currencyItemsMap: MutableMap<String, CurrencyItem> = mutableMapOf()
 
     fun init(viewModel: RateCalcViewModel) {
         this.viewModel = viewModel
@@ -51,7 +48,7 @@ class RateCalcCoordinator @Inject constructor(
                 return@map list
             }
             .observeOn(rxSchedulers.main())
-            .doOnEach { viewModel.showLoading( false) }
+            .doOnEach { viewModel.showLoading(false) }
             .subscribe(::onCurrencyUpdateSuccess, ::onCurrencyUpdateError)
             .also { currencyUpdate = it }
     }
@@ -70,6 +67,9 @@ class RateCalcCoordinator @Inject constructor(
                 // Current top item is always 1.0 and update disrupts UI
                 // Update rates for other items
                 currencyDetailsItem.currencyRate = currencyDetails.rate
+                currencyDetailsItem.currentTopItem = false
+            } else {
+                currencyDetailsItem.currentTopItem = true
             }
         }
 
@@ -87,16 +87,22 @@ class RateCalcCoordinator @Inject constructor(
         if (currencyCode != interactor.baseCurrencyCode) {
             stopUpdates()
 
+            viewModel.promoteCurrencyToTop(currencyCode)
+
             currencyItemsMap[currencyCode]!!.let {
-                val displayAmount = it.currencyCalculationDisplay.value!!
+                val displayAmount = it.rateDisplay.value!!
                 val nativeAmount = CurrencyUtil.parseCurrencyAmount(displayAmount)
                 it.currencyRate = 1.0
                 it.currencyAmount = nativeAmount
-                updateAmountForItems(currencyCode, nativeAmount)
+                delay(RateCalcViewModel.PROMOTE_ANIMATION_DELAY_MS / 2) {
+                    // Delay to wait for items to not be showing
+                    logTime("update items") {
+                        updateAmountForItems(currencyCode, nativeAmount)
+                    }
+                }
             }
             interactor.baseCurrencyCode = currencyCode
 
-            viewModel.promoteCurrencyToTop(currencyCode)
             // Match animation in ViewModel with delay
             delay(RateCalcViewModel.PROMOTE_ANIMATION_DELAY_MS) { startUpdates() }
         }

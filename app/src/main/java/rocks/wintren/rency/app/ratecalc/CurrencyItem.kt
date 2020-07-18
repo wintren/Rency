@@ -3,7 +3,7 @@ package rocks.wintren.rency.app.ratecalc
 import androidx.lifecycle.MutableLiveData
 import rocks.wintren.rency.util.CurrencyUtil
 
-class CurrencyDetailsItem(
+class CurrencyItem(
     val flagUrl: String,
     val titleCurrencyCode: String,
     val subtitleCurrencyName: String,
@@ -12,34 +12,30 @@ class CurrencyDetailsItem(
     val onAmountEdited: (newAmount: String) -> Unit
 ) {
     private var started = false
-    var userUpdate = true
+    var currentTopItem = false
     var currencyAmount: Double = 1.0
         set(value) {
             field = value
-            updateRate()
+            updateDisplayString()
         }
     var currencyRate: Double = initialRate
         set(value) {
             field = value
-            updateRate()
+            updateDisplayString()
         }
     private val currencyRateAmount: String
         get() = CurrencyUtil.formatDisplayString(currencyAmount * currencyRate)
 
-    private fun updateRate() {
-        userUpdate = false
-        currencyCalculationDisplay.value = currencyRateAmount
+    private fun updateDisplayString() {
+        rateDisplay.value = currencyRateAmount
     }
 
-    val currencyCalculationDisplay: MutableLiveData<String> = MutableLiveData(currencyRateAmount)
+    val rateDisplay: MutableLiveData<String> = MutableLiveData(currencyRateAmount)
 
     fun start() {
         if (!started) {
-            currencyCalculationDisplay.observeForever {
-                if (userUpdate)
-                    onAmountEdited.invoke(it)
-                else
-                    userUpdate = true
+            rateDisplay.observeForever {
+                if (currentTopItem) onAmountEdited.invoke(it)
             }
             started = !started
         }

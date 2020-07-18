@@ -1,6 +1,5 @@
 package rocks.wintren.rency.util
 
-import timber.log.Timber
 import java.util.*
 
 object CurrencyUtil {
@@ -49,7 +48,6 @@ object CurrencyUtil {
     fun formatDisplayString(amount: Double): String {
         // Using Locale.ENGLISH because EditText doesn't handle ',' well -> '.'
         return String.format(Locale.ENGLISH, "%.2f", amount)
-            .also { Timber.i("Formated $amount as $it") }
     }
 
     fun parseCurrencyAmount(displayAmount: String): Double {

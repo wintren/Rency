@@ -35,7 +35,7 @@ class RateCalcViewModel @Inject constructor(
     fun promoteCurrencyToTop(currency: String) {
         val list = adapter.currentList.toMutableList()
         val topItem = list.first {
-            val detailsItem = it.model as CurrencyDetailsItem
+            val detailsItem = it.model as CurrencyItem
             currency == detailsItem.titleCurrencyCode
         }
 

@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="rocks.wintren.rency.app.ratecalc.CurrencyDetailsItem" />
+            type="rocks.wintren.rency.app.ratecalc.CurrencyItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,7 +71,7 @@
             android:minWidth="80dp"
             android:paddingStart="@dimen/small_spacing"
             android:paddingEnd="@dimen/small_spacing"
-            android:text="@={item.currencyCalculationDisplay}"
+            android:text="@={item.rateDisplay}"
             android:textAlignment="textEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
