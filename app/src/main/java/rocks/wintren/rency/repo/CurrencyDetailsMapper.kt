@@ -1,8 +1,8 @@
 package rocks.wintren.rency.repo
 
-import android.icu.util.Currency
 import rocks.wintren.rency.models.CurrencyDetails
 import rocks.wintren.rency.models.CurrencyRatesResponseDTO
+import rocks.wintren.rency.util.CurrencyHelper
 import rocks.wintren.rency.util.CurrencyUtil
 import rocks.wintren.rency.util.FlagUtil
 import javax.inject.Inject
@@ -11,7 +11,9 @@ import javax.inject.Singleton
 typealias CurrencyRate = Pair<String, Double>
 
 @Singleton
-class CurrencyUpdateMapper @Inject constructor() {
+class CurrencyDetailsMapper @Inject constructor(
+    private val currencyHelper: CurrencyHelper
+) {
 
     fun mapUpdate(update: CurrencyRatesResponseDTO): List<CurrencyDetails> {
         return update.currencyRates
@@ -27,7 +29,7 @@ class CurrencyUpdateMapper @Inject constructor() {
 
         return CurrencyDetails(
             currencyCode = currencyCode,
-            currencyDisplayName = Currency.getInstance(currencyCode).displayName,
+            currencyDisplayName = currencyHelper.getCurrencyName(currencyCode),
             countryCode = countryCode,
             rate = currencyRate.second,
             flagUrl = flagUrl

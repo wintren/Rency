@@ -5,8 +5,8 @@ import rocks.wintren.rency.util.CurrencyUtil
 
 class CurrencyDetailsItem(
     val flagUrl: String,
-    val currencyTitle: String,
-    val currencySubtitle: String,
+    val titleCurrencyCode: String,
+    val subtitleCurrencyName: String,
     initialRate: Double,
     val onCurrencyClick: () -> Unit,
     val onAmountEdited: (newAmount: String) -> Unit

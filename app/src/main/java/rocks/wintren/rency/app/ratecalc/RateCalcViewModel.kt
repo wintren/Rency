@@ -24,6 +24,10 @@ class RateCalcViewModel @Inject constructor(
 
     val listCount: Int get() = adapter.itemCount
 
+    fun showLoading(show: Boolean) {
+        showLoadingEvent.value = show
+    }
+
     fun updateList(list: List<BindingAdapterItem>) {
         adapter.submitList(list)
     }
@@ -32,7 +36,7 @@ class RateCalcViewModel @Inject constructor(
         val list = adapter.currentList.toMutableList()
         val topItem = list.first {
             val detailsItem = it.model as CurrencyDetailsItem
-            currency == detailsItem.currencyTitle
+            currency == detailsItem.titleCurrencyCode
         }
 
         val indexOfTopItem = list.indexOf(topItem)

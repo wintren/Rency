@@ -20,8 +20,8 @@ class CurrencyItemMapper @Inject constructor() {
     fun mapCurrencyDetailItem(details: CurrencyDetails): CurrencyDetailsItem {
         return CurrencyDetailsItem(
             flagUrl = details.flagUrl,
-            currencyTitle = details.currencyCode,
-            currencySubtitle = details.currencyDisplayName,
+            titleCurrencyCode = details.currencyCode,
+            subtitleCurrencyName = details.currencyDisplayName,
             initialRate = details.rate,
             onCurrencyClick = { onCurrencyClick(details) },
             onAmountEdited = { onCurrencyAmountEdited.invoke(details.currencyCode, it) }

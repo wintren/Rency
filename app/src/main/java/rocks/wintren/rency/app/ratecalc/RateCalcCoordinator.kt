@@ -37,7 +37,7 @@ class RateCalcCoordinator @Inject constructor(
 
     fun startUpdates() {
         if (currencyUpdate != null) {
-            viewModel.showLoadingEvent.value = false
+            viewModel.showLoading(false)
             return Timber.i("Currency Update already running")
         }
         interactor.fetchCurrencyUpdates()
@@ -51,7 +51,7 @@ class RateCalcCoordinator @Inject constructor(
                 return@map list
             }
             .observeOn(rxSchedulers.main())
-            .doOnEach { viewModel.showLoadingEvent.value = false }
+            .doOnEach { viewModel.showLoading( false) }
             .subscribe(::onCurrencyUpdateSuccess, ::onCurrencyUpdateError)
             .also { currencyUpdate = it }
     }
@@ -110,7 +110,7 @@ class RateCalcCoordinator @Inject constructor(
 
     private fun updateAmountForItems(baseCurrency: String, amount: Double) {
         currencyItemsMap.values
-            .filterNot { it.currencyTitle == baseCurrency }
+            .filterNot { it.titleCurrencyCode == baseCurrency }
             .forEach { it.currencyAmount = amount }
     }
 

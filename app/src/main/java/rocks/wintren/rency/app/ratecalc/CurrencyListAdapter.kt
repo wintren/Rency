@@ -14,7 +14,7 @@ class CurrencyListAdapter : DataBindingAdapter(CurrencyDiff()) {
         ): Boolean {
             oldItem.model as CurrencyDetailsItem
             newItem.model as CurrencyDetailsItem
-            return oldItem.model.currencyTitle == newItem.model.currencyTitle
+            return oldItem.model.titleCurrencyCode == newItem.model.titleCurrencyCode
         }
 
         override fun areContentsTheSame(

@@ -52,24 +52,32 @@ object CurrencyUtil {
         decimalFormatSymbols = decimalFormatSymbols.apply { currencySymbol = "" }
     }
 
+    /**
+     * The actual string and what's show in an EditText will be different!
+     * This is based on how EditText handles decimals
+     *
+     * i.e 5000000 will be formatted as "5.000.000.00"
+     * But the EditText will show "5 000 000.00"
+     */
     fun formatDisplayString(amount: Double): String {
         return currencyFormatter.format(amount)
             .trim()
-            // EditText only allows '.' but currencies want ','
+            // EditText only allows '.' but currencies uses ','
             .replace(',', '.')
     }
 
-    fun parseCurrencyAmount(displayAmount: String) : Double {
+    fun parseCurrencyAmount(displayAmount: String): Double {
         return try {
-            // EditText only allows '.' but currencies want ','
-            val parsableFormat = displayAmount.replace('.', ',')
-            NumberFormat.getInstance().parse(parsableFormat)!!.toDouble()
+            displayAmount
+                .trim()
+                .replace(" ", "")
+                .toDouble()
         } catch (e: Exception) { // Any problems gets caught
             1.0
         }
     }
 
-    class CurrencyCountryException(currency: String) :
-        Exception("No available country for currency $currency")
-
 }
+
+class CurrencyCountryException(currency: String) :
+    Exception("No available country for currency $currency")
