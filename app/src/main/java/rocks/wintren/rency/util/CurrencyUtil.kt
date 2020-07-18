@@ -1,7 +1,6 @@
 package rocks.wintren.rency.util
 
-import java.text.DecimalFormat
-import java.text.NumberFormat
+import timber.log.Timber
 import java.util.*
 
 object CurrencyUtil {
@@ -44,35 +43,19 @@ object CurrencyUtil {
         }
     }
 
-    private val currencyFormatter = NumberFormat.getCurrencyInstance().apply {
-        this as DecimalFormat
-        minimumFractionDigits = 2
-        // Not showing currency sign, locale irrelevant
-        currency = Currency.getInstance("EUR")
-        decimalFormatSymbols = decimalFormatSymbols.apply { currencySymbol = "" }
-    }
-
     /**
-     * The actual string and what's show in an EditText will be different!
-     * This is based on how EditText handles decimals
-     *
-     * i.e 5000000 will be formatted as "5.000.000.00"
-     * But the EditText will show "5 000 000.00"
+     * Formats a double as a String with two decimals
      */
     fun formatDisplayString(amount: Double): String {
-        return currencyFormatter.format(amount)
-            .trim()
-            // EditText only allows '.' but currencies uses ','
-            .replace(',', '.')
+        // Using Locale.ENGLISH because EditText doesn't handle ',' well -> '.'
+        return String.format(Locale.ENGLISH, "%.2f", amount)
+            .also { Timber.i("Formated $amount as $it") }
     }
 
     fun parseCurrencyAmount(displayAmount: String): Double {
         return try {
-            displayAmount
-                .trim()
-                .replace(" ", "")
-                .toDouble()
-        } catch (e: Exception) { // Any problems gets caught
+            displayAmount.trim().toDouble()
+        } catch (e: Exception) { // e -> Any problems gets caught
             1.0
         }
     }
